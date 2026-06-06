@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+  <script src="https://app.storyblok.com/f/storyblok-v2-latest.js"></script>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -262,6 +263,27 @@
     if(!asset || !asset.filename) return;
     var el = document.getElementById(id);
     if(el) el.src = asset.filename;
+  }
+  // Bridge para el editor visual
+  if(window.StoryblokBridge){
+    var sbBridge = new window.StoryblokBridge();
+    sbBridge.on(['input','published','change'], function(event){
+      if(event.action === 'input'){
+        var c = event.story.content;
+        setEl('[data-sb="hero_caption"]',    c.hero_caption_es,    c.hero_caption_en);
+        setEl('[data-sb="hero_line"]',       c.hero_line,          c.hero_line);
+        setEl('[data-sb="manifesto"]',       c.manifesto_es,       c.manifesto_en);
+        setEl('[data-sb="historia_titulo"]', c.historia_titulo_es, c.historia_titulo_en);
+        setEl('[data-sb="historia_p1"]',     c.historia_p1_es,     c.historia_p1_en);
+        setEl('[data-sb="historia_p2"]',     c.historia_p2_es,     c.historia_p2_en);
+        setEl('[data-sb="quienes_titulo"]',  c.quienes_titulo_es,  c.quienes_titulo_en);
+        setEl('[data-sb="quienes_p1"]',      c.quienes_p1_es,      c.quienes_p1_en);
+        setEl('[data-sb="quienes_p2"]',      c.quienes_p2_es,      c.quienes_p2_en);
+        setEl('[data-sb="footer_tag"]',      c.footer_tag_es,      c.footer_tag_en);
+      } else {
+        window.location.reload();
+      }
+    });
   }
 </script>
 
